@@ -531,6 +531,8 @@ module.exports = {
 
 然后在入口文件代码中加上一些注释，重新打包查看输出文件，就能看到代码中的注释已经被删除了。
 
+本文中的demo代码参见；https://github.com/duwenbin0316/webpack-runtime-demo
+
 在此处顺便向大家推荐下民生科技公司Firefly移动开发平台中的前端打包构建工具apollo-build。apollo-build包含开发调试、打包、测试、
 和打包dll的功能，并且提供了非常好用的前端接口Mock功能，命令行体验和create-react-app一致。我们封装了webpack中的大部分常用功能并在内部做了很多优化，从中提取出了最常用的配置项，即使不熟悉webpack的配置也能快速上手，并且也支持通过 `webpack.config.js` 的方式做高阶的修改，欢迎访问民生科技官网了解。
  
