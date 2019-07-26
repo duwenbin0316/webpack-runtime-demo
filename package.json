@@ -1,0 +1,18 @@
+{
+  "name": "webpack-runtime-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js",
+    "transform": "pandoc README.md -f markdown -t docx -s -o webpack输出文件分析以及编写一个loader.docx"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6"
+  }
+}
