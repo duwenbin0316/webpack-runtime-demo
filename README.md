@@ -577,3 +577,9 @@ module.exports = {
 《深入浅出webpack》 - 吴浩麟
 
 [Webpack揭秘——走向高阶前端的必经之路](https://imweb.io/topic/5baca58079ddc80f36592f1a)
+
+## 作者介绍
+
+杜文斌
+
+民生科技有限公司用户体验技术部前端开发工程师
