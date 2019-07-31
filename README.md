@@ -1,10 +1,44 @@
 # webpack输出文件分析以及编写一个loader
 
-## webpack输出文件分析
+## webpack构建流程
 
   webpack是时下最流行的前端打包构建工具，本质上是一个模块打包器，通过从入口文件开始递归的分析寻找模块之间的依赖，最终输出一个或多个bundle文件。
 
-  在本篇文章中，我们将通过分析webpack输出的bundle文件，了解bundle文件是如何在浏览器中运行的。
+  webpack的构建是一个串行的流程，从启动到结束，会依次执行以下流程：
+
+  1. 初始化配置
+   
+     从配置文件和命令行中读取参数并合并参数，生成最终的配置项，并且执行配置文件中的插件实例化语句，生成Compiler传入plugin的apply方法，为webpack事件流挂上自定义钩子；
+  2. 开始编译
+
+     生成compiler示例，执行compiler.run开始编译；
+  3. 确定入口文件
+
+     从配置项中读取所有的入口文件；
+  4. 编译模块
+
+     从入口文件开始编译，使用对应的loader编译模块，并且递归的编译当前模块所依赖的模块，在所有的模块都编译完成后，得到所有模块的最终内容和模块之间的依赖关系，最后将所有模块的 `require` 语句替换为 `__webpack_require__` 来模拟模块化操作；
+  5. 资源输出
+
+     根据入口和模块的依赖关系，组装成一个个包含多个模块的chunk，然后将chunk转换成一个单独的文件加入输出列表。
+  6. 生成文件
+
+     将生成的内容根据配置生成文件，输出到指定的位置。
+
+  webpack的核心对象是Compile，负责文件的监听和启动编译，继承自Tapable[https://github.com/webpack/tapable]，使得Compile实例具备了注册和调用插件的功能。
+  
+  在webpack执行构建流程时，webpack会在特定的时机广播对应的事件，插件在监听到事件后，会执行特定的逻辑来修改模块的内容。
+
+  通过下面这个流程图我们能够对webpack的构建流程有个更直观的印象：
+
+  ![运行流程图](./assets/process.png)
+
+  <center>webpack运行流程图</center >
+
+## webpack输出文件分析
+
+  下面，我们将通过分析webpack输出的bundle文件，了解bundle文件是如何在浏览器中运行的。
+
 
 ### 单文件分析
 
@@ -533,6 +567,13 @@ module.exports = {
 
 本文中的demo代码参见；https://github.com/duwenbin0316/webpack-runtime-demo
 
-在此处顺便向大家推荐下民生科技公司Firefly移动开发平台中的前端打包构建工具apollo-build。apollo-build包含开发调试、打包、测试、
+在此处顺便向大家推荐下民生科技公司Firefly移动金融开发平台中的前端打包构建工具apollo-build。apollo-build包含开发调试、打包、测试、
 和打包dll的功能，并且提供了非常好用的前端接口Mock功能，命令行体验和create-react-app一致。我们封装了webpack中的大部分常用功能并在内部做了很多优化，从中提取出了最常用的配置项，即使不熟悉webpack的配置也能快速上手，并且也支持通过 `webpack.config.js` 的方式做高阶的修改，欢迎访问民生科技官网了解。
- 
+
+## 参考
+
+<hr />
+
+《深入浅出webpack》 - 吴浩麟
+
+[Webpack揭秘——走向高阶前端的必经之路](https://imweb.io/topic/5baca58079ddc80f36592f1a)
